@@ -9,7 +9,9 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost/billMinder'),
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI || 'mongodb://localhost/your_db_name',
+    ),
     AuthModule,
     ConfigModule.forRoot(),
   ],
