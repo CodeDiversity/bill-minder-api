@@ -24,24 +24,33 @@ Ensure you have the following installed:
 
 1. **Clone the Repository**
 
-   Begin by cloning this repository to your local machine:
+Begin by cloning this repository to your local machine:
 
-   ```bash
-   git clone https://github.com/yourusername/your-nestjs-template.git
-   cd your-nestjs-template
+```bash
+git clone https://github.com/yourusername/your-nestjs-template.git
+cd your-nestjs-template
+```
 
 2. **Configure Env Variables**
+
+```bash
 JWT_SECRET=your_jwt_secret_here
 MONGODB_URI=your_mongodb_connection_string_here
-
+```
 
 ## Running the Application
 
 After completing the setup steps, you can start the application by running:
+
+```bash
 npm run start
+```
 
 For development, you might prefer running the application in watch mode:
+
+```bash
 npm run start:dev
+```
 
 ## Using the template
 This template is designed to provide a starting point for your NestJS projects. It includes basic configurations for MongoDB connection using Mongoose, authentication mechanisms, and useful interceptors and filters for common tasks.
