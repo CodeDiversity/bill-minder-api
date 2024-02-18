@@ -14,7 +14,6 @@ export class UsersService {
   }
 
   async findOneByUserName(username: string): Promise<User | null> {
-    console.log(username, 'username from findOneByUserId');
     username = username.toLowerCase();
     return this.userModel.findOne({ username }).exec();
   }
