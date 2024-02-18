@@ -17,7 +17,6 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/:username')
   findOne(@Param('username') username: string, @GetUserId() userId: string) {
-    console.log(userId, 'userId from findOne');
     return this.usersService.findOneByUserName(username);
   }
 }
