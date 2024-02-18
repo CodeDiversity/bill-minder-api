@@ -13,7 +13,9 @@ import { ConfigModule } from '@nestjs/config';
       process.env.MONGODB_URI || 'mongodb://localhost/your_db_name',
     ),
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
