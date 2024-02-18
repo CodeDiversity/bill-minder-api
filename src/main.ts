@@ -6,8 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Bill Minder API')
-    .setDescription('Backend service for Bill Minder app')
+    .setTitle('Template for NestJS and MongoDB')
+    .setDescription('The template for NestJS')
     .setVersion('1.0')
     .build();
 
