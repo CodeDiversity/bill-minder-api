@@ -4,6 +4,7 @@ import { UpdateBillDto } from './dto/update-bill.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Bill } from './entities/bill.entity';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class BillsService {
@@ -20,15 +21,35 @@ export class BillsService {
     return `This action returns all bills`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bill`;
+  async findOne(id: string) {
+    const bill = await this.billModel.findById(new ObjectId(id));
+    if (!bill) {
+      throw new Error('Bill not found');
+    }
+    return bill;
   }
 
-  update(id: number, updateBillDto: UpdateBillDto) {
-    return `This action updates a #${id} bill`;
+  async update(id: string, updateBillDto: UpdateBillDto) {
+    const bill = await this.billModel.findByIdAndUpdate(
+      new ObjectId(id),
+      updateBillDto,
+      { new: true },
+    );
+    if (!bill) {
+      throw new Error('Bill not found');
+    }
+    return bill;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bill`;
+  markBillAsPaid(id: string) {
+    const bill = this.billModel.findByIdAndUpdate(
+      new ObjectId(id),
+      { isPaid: true, lastPaidAt: new Date() },
+      { new: true },
+    );
+    if (!bill) {
+      throw new Error('Bill not found');
+    }
+    return bill;
   }
 }

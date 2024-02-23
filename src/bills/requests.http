@@ -1,13 +1,40 @@
 ### Create Bill
 POST http://localhost:8080/bills/create
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDU2NGNlM2M3NTYzM2JjNDFiZWI5ZiIsImlhdCI6MTcwODQ4OTAyNSwiZXhwIjoxNzA4NTE3ODI1fQ.TLOeMwxGKJeZTxvZvhdLOEDh06CzWJPWO0mf90Faa7g
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDdmM2Q5NmYyZjU1ZGQwN2Y4Mzc3NyIsImlhdCI6MTcwODY1MTQ5OCwiZXhwIjoxNzA4NjgwMjk4fQ.0xHE8Ykt1VzztyxwA8e3W8kfpV8eQxpxE1qCGqVhxTk
 
 {
-  "name": "Rent",
-  "amount": 1000,
+  "name": "Car Payment",
+  "amount": 500,
   "dueDate": "2020-09-01",
   "isPaid": false,
   "isRecurring": true,
-  "category": "Housing"
+  "category": "Housing",
+  "lastPaid": "2020-08-01"
 }
+
+### Find Bill By Id
+GET http://localhost:8080/bills/65d7f3fe6f2f55dd07f8377a
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDdmM2Q5NmYyZjU1ZGQwN2Y4Mzc3NyIsImlhdCI6MTcwODY1MTQ5OCwiZXhwIjoxNzA4NjgwMjk4fQ.0xHE8Ykt1VzztyxwA8e3W8kfpV8eQxpxE1qCGqVhxTk
+
+
+### Update Bill
+PATCH http://localhost:8080/bills/65d7f3fe6f2f55dd07f8377a
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDdmM2Q5NmYyZjU1ZGQwN2Y4Mzc3NyIsImlhdCI6MTcwODY1MTQ5OCwiZXhwIjoxNzA4NjgwMjk4fQ.0xHE8Ykt1VzztyxwA8e3W8kfpV8eQxpxE1qCGqVhxTk
+
+{
+  "name": "Truck Payment",
+  "amount": 500,
+  "dueDate": "2020-09-01",
+  "isPaid": false,
+  "isRecurring": true,
+  "category": "Automotive",
+  "lastPaid": "2020-08-01"
+}
+
+### Mark Bill As Paid
+POST http://localhost:8080/bills/paid/65d7f3fe6f2f55dd07f8377a/
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDdmM2Q5NmYyZjU1ZGQwN2Y4Mzc3NyIsImlhdCI6MTcwODY1MTQ5OCwiZXhwIjoxNzA4NjgwMjk4fQ.0xHE8Ykt1VzztyxwA8e3W8kfpV8eQxpxE1qCGqVhxTk
