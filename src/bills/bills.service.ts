@@ -52,4 +52,14 @@ export class BillsService {
     }
     return bill;
   }
+
+  async getUserBills(id: string) {
+    console.log('id', id);
+    const userId = new ObjectId(id);
+    const bills = await this.billModel.find({ userId });
+    if (!bills) {
+      return [];
+    }
+    return bills;
+  }
 }
