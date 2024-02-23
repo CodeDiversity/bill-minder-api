@@ -1,4 +1,5 @@
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDU2NGNlM2M3NTYzM2JjNDFiZWI5ZiIsImlhdCI6MTcwODY2MDEwMywiZXhwIjoxNzA4Njg4OTAzfQ.zMlXHrIGRIoSEtQi4ttL1AK-kadu8Q0Lk5Dv_lRlYdM
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDU2NGNlM2M3NTYzM2JjNDFiZWI5ZiIsImlhdCI6MTcwODY5NzcyMSwiZXhwIjoxNzA4NzI2NTIxfQ.BGZej87kAJNS-vvlli1r6sXbNoqz_JEc8TDaZeeGgH4
+@billId = 65d57a9a770225ba65b7569f
 
 ### Create Bill
 POST http://localhost:8080/bills
@@ -16,12 +17,12 @@ Authorization: Bearer {{authToken}}
 }
 
 ### Find Bill By Id
-GET http://localhost:8080/bills/65d7f3fe6f2f55dd07f8377a
+GET http://localhost:8080/bills/{{billId}}
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ### Update Bill
-PATCH http://localhost:8080/bills/65d7f3fe6f2f55dd07f8377a
+PATCH http://localhost:8080/bills/{{billId}}
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -41,6 +42,6 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ### Get Bills By User 
-GET http://localhost:8080/bills/user/bills
+GET http://localhost:8080/bills
 Content-Type: application/json
 Authorization: Bearer {{authToken}}

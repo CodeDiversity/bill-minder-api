@@ -17,10 +17,6 @@ export class BillsService {
     return newBill.save();
   }
 
-  findAll() {
-    return `This action returns all bills`;
-  }
-
   async findOne(id: string) {
     const bill = await this.billModel.findById(new ObjectId(id));
     if (!bill) {
