@@ -26,3 +26,16 @@ export class EmailAlreadyTakenException extends HttpException {
     );
   }
 }
+
+export class InvalidCredentials extends HttpException {
+  constructor() {
+    super(
+      {
+        status: HttpStatus.UNAUTHORIZED,
+        error: 'Invalid credentials',
+        code: 'INVALID_CREDENTIALS',
+      },
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
+}
