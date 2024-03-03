@@ -8,13 +8,16 @@ import {
   EmailAlreadyTakenException,
   UsernameAlreadyTakenException,
 } from 'src/common/custom-errors/customErrors';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  async findByUserId(userId: string): Promise<User[]> {
-    return this.userModel.find({ userId }).exec();
+  async findByUserId(userId: string): Promise<User> {
+    const id = new ObjectId(userId);
+    const user = await this.userModel.findOne({ _id: id }).exec();
+    return user;
   }
 
   async findOneByUserName(username: string): Promise<User | null> {
