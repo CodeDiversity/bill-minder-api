@@ -53,6 +53,10 @@ export class BillsService {
     console.log('id', id);
     const userId = new ObjectId(id);
     const bills = await this.billModel.find({ userId });
+    // sort bills by due date
+    bills.sort((a, b) => {
+      return a.dueDate.getTime() - b.dueDate.getTime();
+    });
     if (!bills) {
       return [];
     }
