@@ -6,4 +6,20 @@ export const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   fullName: { type: String, required: true },
   created: { type: Date, default: Date.now },
+  categories: {
+    type: [String],
+    default: [
+      'Housing',
+      'Transportation',
+      'Food',
+      'Utilities',
+      'Insurance',
+      'Healthcare',
+      'Savings',
+      'Debt',
+      'Personal',
+      'Recreation',
+      'Miscellaneous',
+    ],
+  },
 });

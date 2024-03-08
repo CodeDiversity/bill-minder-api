@@ -9,4 +9,6 @@ export class UserDto {
   username: string;
   @Expose()
   fullName: string;
+  @Expose()
+  categories: string[];
 }

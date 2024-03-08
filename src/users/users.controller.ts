@@ -27,4 +27,13 @@ export class UsersController {
   findById(@GetUserId() userId: string) {
     return this.usersService.findByUserId(userId);
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/categories')
+  updateCategories(
+    @GetUserId() userId: string,
+    @Body('categories') categories: string[],
+  ) {
+    return this.usersService.updateCategories(userId, categories);
+  }
 }

@@ -47,4 +47,11 @@ export class UsersService {
     });
     return newUser.save();
   }
+
+  async updateCategories(userId: string, categories: string[]): Promise<User> {
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(userId, { $set: { categories } }, { new: true })
+      .exec();
+    return updatedUser;
+  }
 }
