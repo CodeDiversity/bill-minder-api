@@ -5,10 +5,15 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Bill } from './entities/bill.entity';
 import { ObjectId } from 'mongodb';
+import { Cron } from '@nestjs/schedule';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class BillsService {
-  constructor(@InjectModel('Bill') private billModel: Model<Bill>) {}
+  constructor(
+    @InjectModel('Bill') private billModel: Model<Bill>,
+    private usersService: UsersService,
+  ) {}
   create(createBillDto: CreateBillDto, userId: string) {
     const newBill = new this.billModel({
       ...createBillDto,
@@ -37,6 +42,21 @@ export class BillsService {
     return bill;
   }
 
+  async findBillsByDueDate() {
+    const now = new Date();
+    // find bills that are due within the next 48 hours
+    const bills = await this.billModel.find({
+      dueDate: {
+        $gte: now,
+        $lte: new Date(now.getTime() + 172800000),
+      },
+    });
+    if (!bills) {
+      return [];
+    }
+    return bills;
+  }
+
   markBillAsPaid(id: string) {
     const bill = this.billModel.findByIdAndUpdate(
       new ObjectId(id),
@@ -61,5 +81,22 @@ export class BillsService {
       return [];
     }
     return bills;
+  }
+
+  @Cron('30 * * * * *')
+  async sendBillReminders() {
+    const now = new Date();
+    const bills = await this.findBillsByDueDate();
+    const dueBills = bills.filter((bill) => {
+      // 24 hours in milliseconds
+      return bill.dueDate.getTime() - now.getTime() < 86400000;
+    });
+    if (dueBills.length > 0) {
+      // for each bill, find the users email address and send a reminder
+      dueBills.forEach(async (bill) => {
+        const user = await this.usersService.findByUserId(bill.userId);
+        console.log('send email to', user.email, 'for bill', bill.name);
+      });
+    }
   }
 }
