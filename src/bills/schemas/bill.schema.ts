@@ -15,4 +15,3 @@ export const BillSchema = new mongoose.Schema({
   isDeleted: { type: Boolean, required: true, default: false },
   deletedAt: { type: Date },
 });
-// // override the find method to exclude soft deleted documents
