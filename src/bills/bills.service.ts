@@ -24,7 +24,9 @@ export class BillsService {
   }
 
   async findOne(id: string) {
-    const bill = await this.billModel.findById(new ObjectId(id));
+    const bill = await this.billModel
+      .findById({ _id: new ObjectId(id), isDeleted: false })
+      .exec();
     if (!bill) {
       throw new Error('Bill not found');
     }
@@ -43,6 +45,18 @@ export class BillsService {
     return bill;
   }
 
+  async deleteBillSoft(id: string) {
+    const bill = await this.billModel.findByIdAndUpdate(
+      new ObjectId(id),
+      { isDeleted: true, deletedAt: new Date() },
+      { new: true },
+    );
+    if (!bill) {
+      throw new Error('Bill not found');
+    }
+    return bill;
+  }
+
   async findBillsByDueDate() {
     const now = new Date();
     // find bills that are due within the next 48 hours
@@ -51,6 +65,7 @@ export class BillsService {
         $gte: now,
         $lte: new Date(now.getTime() + 172800000),
       },
+      isDeleted: false,
     });
     if (!bills) {
       return [];
@@ -73,7 +88,10 @@ export class BillsService {
   async getUserBills(id: string) {
     console.log('id', id);
     const userId = new ObjectId(id);
-    const bills = await this.billModel.find({ userId });
+    const bills = await this.billModel.find({
+      userId,
+      isDeleted: false,
+    });
     // sort bills by due date
     bills.sort((a, b) => {
       return a.dueDate.getTime() - b.dueDate.getTime();

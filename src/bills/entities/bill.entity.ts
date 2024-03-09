@@ -9,4 +9,6 @@ export class Bill {
   category: string;
   createdAt: Date;
   lastPaidAt: Date;
+  isDeleted: boolean;
+  deletedAt: Date;
 }

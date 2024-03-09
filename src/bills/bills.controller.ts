@@ -46,4 +46,10 @@ export class BillsController {
   markAsPaid(@Param('id') id: string) {
     return this.billsService.markBillAsPaid(id);
   }
+
+  // delete bill soft
+  @Patch('delete/:id')
+  deleteBill(@Param('id') id: string) {
+    return this.billsService.deleteBillSoft(id);
+  }
 }

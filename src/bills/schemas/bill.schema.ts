@@ -12,4 +12,7 @@ export const BillSchema = new mongoose.Schema({
   category: { type: String },
   createdAt: { type: Date, default: Date.now },
   lastPaidAt: { type: Date },
+  isDeleted: { type: Boolean, required: true, default: false },
+  deletedAt: { type: Date },
 });
+// // override the find method to exclude soft deleted documents
