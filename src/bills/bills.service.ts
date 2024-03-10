@@ -8,6 +8,7 @@ import { ObjectId } from 'mongodb';
 import { Cron } from '@nestjs/schedule';
 import { UsersService } from 'src/users/users.service';
 import * as sgMail from '@sendgrid/mail';
+import { subDays, addMonths } from 'date-fns';
 
 @Injectable()
 export class BillsService {
@@ -73,16 +74,25 @@ export class BillsService {
     return bills;
   }
 
-  markBillAsPaid(id: string) {
-    const bill = this.billModel.findByIdAndUpdate(
-      new ObjectId(id),
-      { isPaid: true, lastPaidAt: new Date() },
-      { new: true },
-    );
+  async markBillAsPaid(id: string) {
+    const bill = await this.findOne(id);
     if (!bill) {
       throw new Error('Bill not found');
     }
-    return bill;
+    if (bill.isRecurring) {
+      const nextDueDate = addMonths(bill.dueDate, 1);
+      return this.billModel.findByIdAndUpdate(
+        new ObjectId(id),
+        { isPaid: false, lastPaidAt: new Date(), dueDate: nextDueDate },
+        { new: true },
+      );
+    } else {
+      return this.billModel.findByIdAndUpdate(
+        new ObjectId(id),
+        { isPaid: true, lastPaidAt: new Date() },
+        { new: true },
+      );
+    }
   }
 
   async getUserBills(id: string) {
