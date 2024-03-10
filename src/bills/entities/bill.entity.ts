@@ -11,4 +11,5 @@ export class Bill {
   lastPaidAt: Date;
   isDeleted: boolean;
   deletedAt: Date;
+  payLink: string;
 }

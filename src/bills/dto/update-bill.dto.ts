@@ -32,5 +32,7 @@ export class UpdateBillDto {
 
   createdAt: Date;
 
+  payLink: string;
+
   lastPaidAt: Date;
 }

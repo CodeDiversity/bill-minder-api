@@ -10,6 +10,7 @@ export const BillSchema = new mongoose.Schema({
   created: { type: Date, default: Date.now },
   isRecurring: { type: Boolean, required: true, default: false },
   category: { type: String },
+  payLink: { type: String },
   createdAt: { type: Date, default: Date.now },
   lastPaidAt: { type: Date },
   isDeleted: { type: Boolean, required: true, default: false },
