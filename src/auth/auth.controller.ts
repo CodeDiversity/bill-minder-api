@@ -1,6 +1,7 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { InvalidCredentials } from 'src/common/custom-errors/customErrors';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
     );
 
     if (!user) {
-      throw new BadRequestException('Invalid username or password');
+      throw new InvalidCredentials();
     } else {
       return this.authService.login(user);
     }

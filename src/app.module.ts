@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { BillsModule } from './bills/bills.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -13,7 +15,10 @@ import { ConfigModule } from '@nestjs/config';
       process.env.MONGO_URI || 'mongodb://localhost/billMinder',
     ),
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    BillsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

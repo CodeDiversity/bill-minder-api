@@ -1,0 +1,47 @@
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyNCIsInVzZXJJZCI6IjY1ZDU2NGNlM2M3NTYzM2JjNDFiZWI5ZiIsImlhdCI6MTcwODc0MTE3OCwiZXhwIjoxNzA4NzY5OTc4fQ.M-TUgTi7c2xGgwNa5qfo1CcwYF9unc_Y8pQw0RjbNjo
+@billId = 65d57a9a770225ba65b7569f
+
+### Create Bill
+POST http://localhost:8080/bills
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Mortgage",
+  "amount": 1000,
+  "dueDate": "2020-09-01",
+  "isPaid": false,
+  "isRecurring": true,
+  "category": "Housing",
+  "lastPaidDate": "2020-08-01"
+}
+
+### Find Bill By Id
+GET http://localhost:8080/bills/{{billId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Update Bill
+PATCH http://localhost:8080/bills/{{billId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Student Loan Payment", // Updated example name for clarity
+  "amount": 550, // Example update
+  "dueDate": "2020-10-01", // Example update
+  "isPaid": false,
+  "isRecurring": true,
+  "category": "Education",
+  "lastPaidDate": "2020-09-01" // Adjusted field name and example date
+}
+
+### Mark Bill As Paid
+PATCH http://localhost:8080/bills/paid/65d7f3fe6f2f55dd07f8377a
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Get Bills By User 
+GET http://localhost:8080/bills
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

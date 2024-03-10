@@ -7,4 +7,5 @@ export interface User extends Document {
   firstName?: string;
   lastName?: string;
   created?: Date;
+  categories?: string[];
 }
