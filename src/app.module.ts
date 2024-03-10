@@ -10,15 +10,13 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    UsersModule,
-    ScheduleModule.forRoot(),
-    MongooseModule.forRoot(
-      process.env.MONGODB_URI || 'mongodb://localhost/your_db_name',
-    ),
-    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    UsersModule,
+    ScheduleModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_URI),
+    AuthModule,
     BillsModule,
   ],
   controllers: [AppController],
