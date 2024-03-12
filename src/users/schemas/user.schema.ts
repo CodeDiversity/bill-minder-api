@@ -22,4 +22,9 @@ export const UserSchema = new mongoose.Schema({
       'Miscellaneous',
     ],
   },
+  phoneNumber: { type: String, required: true },
+  role: { type: String, default: 'user' },
+  verified: { type: Boolean, default: false },
+  currency: { type: String, default: 'USD' },
+  emailReminderTime: { type: String, default: '08:00' },
 });
