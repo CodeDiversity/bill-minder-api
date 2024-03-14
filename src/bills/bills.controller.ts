@@ -28,7 +28,6 @@ export class BillsController {
   // bills/123
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('id', id);
     return this.billsService.findOne(id);
   }
   // Create a new bill
