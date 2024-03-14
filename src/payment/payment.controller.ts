@@ -20,6 +20,11 @@ export class PaymentController {
     return this.paymentService.create(createPaymentDto);
   }
 
+  @Get(':userId')
+  findAllByUserId(@Param('userId') userId: string) {
+    return this.paymentService.findAllByUserId(userId);
+  }
+
   // @Get()
   // findAll() {
   //   return this.paymentService.findAll();

@@ -12,6 +12,10 @@ export class PaymentService {
     return this.billModel.create(createPaymentDto);
   }
 
+  findAllByUserId(userId: string) {
+    return this.billModel.find({ userId });
+  }
+
   // findAll() {
   //   return `This action returns all payment`;
   // }
