@@ -3,17 +3,17 @@ import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Bill } from 'src/bills/entities/bill.entity';
+import { Payment } from './entities/payment.entity';
 
 @Injectable()
 export class PaymentService {
-  constructor(@InjectModel('Payment') private billModel: Model<Bill>) {}
+  constructor(@InjectModel('Payment') private paymentModel: Model<Payment>) {}
   create(createPaymentDto: CreatePaymentDto) {
-    return this.billModel.create(createPaymentDto);
+    return this.paymentModel.create(createPaymentDto);
   }
 
   findAllByUserId(userId: string) {
-    return this.billModel.find({ userId });
+    return this.paymentModel.find({ userId });
   }
 
   // findAll() {
