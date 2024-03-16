@@ -6,17 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
+import { GetUserId } from 'src/decorators/get-use-id.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('payment')
+@UseGuards(AuthGuard('jwt'))
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  create(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paymentService.create(createPaymentDto);
+  create(
+    @Body() createPaymentDto: CreatePaymentDto,
+    @GetUserId() userId: string,
+  ) {
+    console.log('userId', userId);
+    return this.paymentService.create(createPaymentDto, userId);
   }
 
   @Get(':userId')

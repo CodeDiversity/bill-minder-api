@@ -1,10 +1,9 @@
 export class CreatePaymentDto {
-  userId: string;
-  billId: string;
+  bill: string;
   amount: number;
   date: Date;
   isRecurring?: boolean;
-  paidAt: Date;
-  isDeleted: boolean;
-  updatedAt: Date;
+  paidAt?: Date;
+  confirmationNumber?: string;
+  note?: string;
 }

@@ -97,10 +97,16 @@ export class BillsService {
 
   async getUserBills(id: string) {
     const userId = new ObjectId(id);
-    const bills = await this.billModel.find({
-      userId,
-      isDeleted: false,
-    });
+    const bills = await this.billModel
+      .find({
+        userId,
+        isDeleted: false,
+      })
+      .populate('payments')
+      .exec();
+
+    console.log(bills, 'bills');
+
     // sort bills by due date
     bills.sort((a, b) => {
       return a.dueDate.getTime() - b.dueDate.getTime();

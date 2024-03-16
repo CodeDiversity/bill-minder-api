@@ -1,3 +1,5 @@
+import { Payment } from 'src/payment/entities/payment.entity';
+
 export class Bill {
   userId: string;
   name: string;
@@ -12,4 +14,5 @@ export class Bill {
   isDeleted: boolean;
   deletedAt: Date;
   payLink: string;
+  payments: Payment[];
 }

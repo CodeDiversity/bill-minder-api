@@ -2,7 +2,7 @@ import { ObjectId } from 'mongoose';
 
 export class Payment {
   userId: ObjectId;
-  billId: ObjectId;
+  bill: ObjectId;
   amount: number;
   date: Date;
   createdAt: Date;
@@ -14,4 +14,6 @@ export class Payment {
   paidAt: Date;
   isAutoPay: boolean;
   autoPayId: ObjectId;
+  confirmationNumber: string;
+  note: string;
 }
