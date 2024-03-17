@@ -13,5 +13,7 @@ export const PaymentSchema = new mongoose.Schema({
   lastPaidAt: { type: Date },
   isDeleted: { type: Boolean, required: true, default: false },
   deletedAt: { type: Date },
-  payments: [{ type: ObjectId, ref: 'Payment' }],
+  date: { type: Date, required: true },
+  confirmationNumber: { type: String },
+  note: { type: String },
 });
