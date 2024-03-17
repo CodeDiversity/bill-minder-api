@@ -15,7 +15,7 @@ export class BillsService {
   constructor(
     @InjectModel('Bill') private billModel: Model<Bill>,
     private usersService: UsersService,
-  ) {}
+  ) { }
   create(createBillDto: CreateBillDto, userId: string) {
     const newBill = new this.billModel({
       ...createBillDto,
@@ -128,6 +128,42 @@ export class BillsService {
       return [];
     }
     return bills;
+  }
+
+  async getUpcomingBills(id: string) {
+    const userId = new ObjectId(id);
+    const now = new Date();
+    const bills = await this.billModel
+      .find({
+        userId,
+        dueDate: {
+          $gte: now,
+        },
+        isDeleted: false,
+      })
+      .populate('payments')
+      .limit(5)
+      .exec();
+    if (!bills) {
+      return [];
+    }
+    return bills;
+  }
+
+  // once a month check for deleted bills and remove them from the database
+  @Cron('0 0 1 * * *')
+  async removeDeletedBills() {
+    const bills = await this.billModel.find({
+      isDeleted: true,
+      deletedAt: {
+        $lte: new Date(new Date().getTime() - 2592000000),
+      },
+    });
+    if (bills.length > 0) {
+      bills.forEach(async (bill) => {
+        await this.billModel.findByIdAndDelete(bill._id);
+      });
+    }
   }
 
   @Cron('0 30 8 * * *')
