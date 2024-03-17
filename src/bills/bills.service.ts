@@ -8,14 +8,14 @@ import { ObjectId } from 'mongodb';
 import { Cron } from '@nestjs/schedule';
 import { UsersService } from 'src/users/users.service';
 import * as sgMail from '@sendgrid/mail';
-import { subDays, addMonths } from 'date-fns';
+import { addMonths } from 'date-fns';
 
 @Injectable()
 export class BillsService {
   constructor(
     @InjectModel('Bill') private billModel: Model<Bill>,
     private usersService: UsersService,
-  ) {}
+  ) { }
   create(createBillDto: CreateBillDto, userId: string) {
     const newBill = new this.billModel({
       ...createBillDto,
@@ -24,9 +24,22 @@ export class BillsService {
     return newBill.save();
   }
 
+  addPaymentToBill(paymentId: string, billId: string) {
+    console.log('billId', billId);
+    return this.billModel.findByIdAndUpdate(
+      new ObjectId(billId),
+      { $push: { payments: paymentId } },
+      { new: true },
+    );
+  }
+
   async findOne(id: string) {
     const bill = await this.billModel
-      .findById({ _id: new ObjectId(id), isDeleted: false })
+      .findOne({
+        _id: id,
+        isDeleted: false,
+      })
+      .populate('payments')
       .exec();
     if (!bill) {
       throw new Error('Bill not found');
@@ -96,12 +109,17 @@ export class BillsService {
   }
 
   async getUserBills(id: string) {
-    console.log('id', id);
     const userId = new ObjectId(id);
-    const bills = await this.billModel.find({
-      userId,
-      isDeleted: false,
-    });
+    const bills = await this.billModel
+      .find({
+        userId,
+        isDeleted: false,
+      })
+      .populate('payments')
+      .exec();
+
+    console.log(bills, 'bills');
+
     // sort bills by due date
     bills.sort((a, b) => {
       return a.dueDate.getTime() - b.dueDate.getTime();
@@ -110,6 +128,42 @@ export class BillsService {
       return [];
     }
     return bills;
+  }
+
+  async getUpcomingBills(id: string) {
+    const userId = new ObjectId(id);
+    const now = new Date();
+    const bills = await this.billModel
+      .find({
+        userId,
+        dueDate: {
+          $gte: now,
+        },
+        isDeleted: false,
+      })
+      .populate('payments')
+      .limit(5)
+      .exec();
+    if (!bills) {
+      return [];
+    }
+    return bills;
+  }
+
+  // once a month check for deleted bills and remove them from the database
+  @Cron('0 0 1 * * *')
+  async removeDeletedBills() {
+    const bills = await this.billModel.find({
+      isDeleted: true,
+      deletedAt: {
+        $lte: new Date(new Date().getTime() - 2592000000),
+      },
+    });
+    if (bills.length > 0) {
+      bills.forEach(async (bill) => {
+        await this.billModel.findByIdAndDelete(bill._id);
+      });
+    }
   }
 
   @Cron('0 30 8 * * *')

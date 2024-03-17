@@ -24,11 +24,15 @@ export class BillsController {
     return this.billsService.getUserBills(userId);
   }
 
+  @Get('/upcoming')
+  getUpcomingBills(@GetUserId() userId: string) {
+    return this.billsService.getUpcomingBills(userId);
+  }
+
   // Get a specific bill by ID
   // bills/123
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('id', id);
     return this.billsService.findOne(id);
   }
   // Create a new bill

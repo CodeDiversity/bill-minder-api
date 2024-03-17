@@ -54,4 +54,11 @@ export class UsersService {
       .exec();
     return updatedUser;
   }
+
+  async update(userId: string, user: User): Promise<User> {
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(userId, { $set: user }, { new: true })
+      .exec();
+    return updatedUser;
+  }
 }

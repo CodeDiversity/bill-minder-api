@@ -8,4 +8,9 @@ export interface User extends Document {
   lastName?: string;
   created?: Date;
   categories?: string[];
+  phoneNumber?: string;
+  role: string;
+  verified?: boolean;
+  currency: string;
+  emailReminderTime?: string;
 }

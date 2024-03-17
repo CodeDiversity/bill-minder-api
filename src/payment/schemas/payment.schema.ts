@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
-
-export const BillSchema = new mongoose.Schema({
+export const PaymentSchema = new mongoose.Schema({
   userId: { type: ObjectId, required: true, ref: 'User' },
-  name: { type: String, required: true },
   amount: { type: Number, required: true },
   dueDate: { type: Date },
   isPaid: { type: Boolean, required: true, default: false },
@@ -15,5 +13,7 @@ export const BillSchema = new mongoose.Schema({
   lastPaidAt: { type: Date },
   isDeleted: { type: Boolean, required: true, default: false },
   deletedAt: { type: Date },
-  payments: [{ type: ObjectId, ref: 'Payment' }],
+  date: { type: Date, required: true },
+  confirmationNumber: { type: String },
+  note: { type: String },
 });
