@@ -25,7 +25,6 @@ export class BillsService {
   }
 
   addPaymentToBill(paymentId: string, billId: string) {
-    console.log('billId', billId);
     return this.billModel.findByIdAndUpdate(
       new ObjectId(billId),
       { $push: { payments: paymentId } },
@@ -117,8 +116,6 @@ export class BillsService {
       })
       .populate('payments')
       .exec();
-
-    console.log(bills, 'bills');
 
     // sort bills by due date
     bills.sort((a, b) => {
