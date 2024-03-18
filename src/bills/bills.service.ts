@@ -9,6 +9,7 @@ import { Cron } from '@nestjs/schedule';
 import { UsersService } from 'src/users/users.service';
 import * as sgMail from '@sendgrid/mail';
 import { addMonths } from 'date-fns';
+import { recurringCalculator } from './helpers/recurringCalculator';
 
 @Injectable()
 export class BillsService {
@@ -92,7 +93,10 @@ export class BillsService {
       throw new Error('Bill not found');
     }
     if (bill.isRecurring) {
-      const nextDueDate = addMonths(bill.dueDate, 1);
+      const nextDueDate = recurringCalculator(
+        bill.dueDate,
+        bill.recurringFrequency,
+      );
       return this.billModel.findByIdAndUpdate(
         new ObjectId(id),
         { isPaid: false, lastPaidAt: new Date(), dueDate: nextDueDate },
