@@ -19,6 +19,6 @@ export const recurringCalculator = (
     case RecurringFrequency.ANNUALLY:
       return add(date, { years: 1 });
     default:
-      return add(date, { years: 1 });
+      return add(date, { months: 1 });
   }
 };
