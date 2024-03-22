@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
+import { RecurringFrequency } from '../entities/bill.entity';
 
 export const BillSchema = new mongoose.Schema({
   userId: { type: ObjectId, required: true, ref: 'User' },
@@ -16,4 +17,5 @@ export const BillSchema = new mongoose.Schema({
   isDeleted: { type: Boolean, required: true, default: false },
   deletedAt: { type: Date },
   payments: [{ type: ObjectId, ref: 'Payment' }],
+  recurringFrequency: { type: String, default: RecurringFrequency.MONTHLY },
 });

@@ -23,7 +23,6 @@ export class PaymentController {
     @Body() createPaymentDto: CreatePaymentDto,
     @GetUserId() userId: string,
   ) {
-    console.log('userId', userId);
     return this.paymentService.create(createPaymentDto, userId);
   }
 
