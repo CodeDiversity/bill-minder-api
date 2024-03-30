@@ -8,7 +8,7 @@ import { ObjectId } from 'mongodb';
 import { Cron } from '@nestjs/schedule';
 import { UsersService } from 'src/users/users.service';
 import * as sgMail from '@sendgrid/mail';
-import { addMonths } from 'date-fns';
+import { addMonths, addDays } from 'date-fns';
 import { recurringCalculator } from './helpers/recurringCalculator';
 
 @Injectable()
@@ -167,14 +167,14 @@ export class BillsService {
     }
   }
 
-  @Cron('0 30 8 * * *')
+  @Cron('0 00 10 * * *')
   async sendBillReminders() {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const now = new Date();
     const bills = await this.findBillsByDueDate();
     const dueBills = bills.filter((bill) => {
-      // 24 hours in milliseconds
-      return bill.dueDate.getTime() - now.getTime() < 86400000;
+      // return bills that are due tomorrow
+      return bill.dueDate.getDate() === addDays(now, 1).getDate();
     });
     if (dueBills.length > 0) {
       // for each bill, find the users email address and send a reminder
