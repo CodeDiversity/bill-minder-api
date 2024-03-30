@@ -167,7 +167,7 @@ export class BillsService {
     }
   }
 
-  @Cron('0 00 10 * * *')
+  @Cron('0 0 10 * * *')
   async sendBillReminders() {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const now = new Date();
