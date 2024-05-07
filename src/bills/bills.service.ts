@@ -183,13 +183,13 @@ export class BillsService {
         const msg = {
           to: user.email,
           from: 'rainbowdevs22@gmail.com',
-          subject: `Bill Reminder: ${bill.name}`,
-          html: `<strong>This is a reminder that your bill ${bill.name} is due on ${bill.dueDate}</strong>`,
+          subject: `Bill Reminder: ${bill.name} for ${bill.amount}`,
+          html: `<strong>This is a reminder that your bill ${bill.name} is due on ${bill.dueDate}</strong> for ${bill.amount}`,
         };
         sgMail
           .send(msg)
           .then(() => {
-            console.log(`Email sent to ${user}`);
+            console.log(`Email sent to ${user.email}`);
           })
           .catch((error) => {
             console.error(error);
