@@ -22,7 +22,7 @@ export const UserSchema = new mongoose.Schema({
       'Miscellaneous',
     ],
   },
-  phoneNumber: { type: String, required: true },
+  phoneNumber: { type: String, required: false },
   role: { type: String, default: 'user' },
   verified: { type: Boolean, default: false },
   currency: { type: String, default: 'USD' },
