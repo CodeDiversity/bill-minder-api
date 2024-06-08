@@ -8,7 +8,6 @@ import { ObjectId } from 'mongodb';
 import { Cron } from '@nestjs/schedule';
 import { UsersService } from 'src/users/users.service';
 import * as sgMail from '@sendgrid/mail';
-import { addMonths } from 'date-fns';
 import { recurringCalculator } from './helpers/recurringCalculator';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class BillsService {
   constructor(
     @InjectModel('Bill') private billModel: Model<Bill>,
     private usersService: UsersService,
-  ) { }
+  ) {}
   create(createBillDto: CreateBillDto, userId: string) {
     const newBill = new this.billModel({
       ...createBillDto,
